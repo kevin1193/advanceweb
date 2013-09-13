@@ -12,5 +12,8 @@ Module8
 	index html
 
 submission: September 14.!!!!
+study MVC design pattern
+backbone.js
+underscore.js
 
 
