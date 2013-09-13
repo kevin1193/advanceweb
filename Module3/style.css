@@ -1,0 +1,130 @@
+body {
+   background:#555555 ;
+   font-size: 100%;
+   line-height: 1.6875;
+                        font-family:Georgia;
+  }
+#main {
+   min-height: 800px;
+   margin: 0px;
+   padding: 0px;
+   background:;
+   display: -webkit-flex;
+   display:         flex;
+   -webkit-flex-flow: row;
+           flex-flow: row;
+   }
+   #main > article {
+   margin: 4px;
+   padding: 5px;
+   border: 1px solid #C0C0C0;
+   border-radius: 7pt;
+   background: #808080;
+   -webkit-flex: 3 1 60%;
+           flex: 3 1 60%;
+   -webkit-order: 2;
+           order: 2;
+   }
+   #main > nav {
+   margin: 6px;
+   padding: 5px;
+   border: 2px solid #C0C0C0;
+   border-radius: 7pt;
+   background: #333333;
+   -webkit-flex: 1 6 20%;
+           flex: 1 6 20%;
+   -webkit-order: 1;
+           order: 1;
+   }
+   #main > aside {
+   margin: 6px;
+   padding: 5px;
+   border: 2px solid #C0C0C0;
+   border-radius: 7pt;
+   background: #333333;
+   -webkit-flex: 1 6 20%;
+           flex: 1 6 20%;
+   -webkit-order: 3;
+           order: 3;
+   }
+   .picture1 {
+    max-width:100%;
+    height:100%;
+    min-width:100%;
+    min-height:50%;
+   }
+   .picture2 {
+    max-width:75%;
+    max-height:30%;
+    min-width:20%;
+    min-height:10%;
+   }
+   .picture3 {
+    max-width:100%;
+    max-height:1%;
+    min-width:10%;
+    min-height:10%;
+   }
+   .picture4{
+    max-height:5%;
+    min-height:5%;
+   }
+   .picture5{
+    max-width:125%;
+    min-width:15%;
+    max-height: 5%;
+   }
+   .picture6{
+    max-width:30%;
+    min-width:5%;
+    max-height:10%
+   }
+   .picture7{
+    max-width:75%;
+    min-width:10%;
+    max-height:50%
+   }
+
+   header{
+    display: block;
+   margin: 6px;
+   padding: 4px;
+   min-height: 150px;
+   border: 2px solid #C0C0C0;
+   border-radius: 5pt;
+   background: #333333;
+   min-height:100px;
+   }
+   footer {
+   display: block;
+   margin: 6px;
+   padding: 4px;
+   min-height: 50px;
+   border: 2px solid #C0C0C0;
+   border-radius: 5pt;
+   background: #444444;
+   }
+   @media all and (max-width: 640px) {
+  
+   #main, #page {
+    -webkit-flex-flow: column;
+            flex-flow: column;
+   }
+
+   #main > article, #main > nav, #main > aside {
+    
+    -webkit-order: 0;
+            order: 0;
+   }
+  
+   #main > nav, #main > aside, header,{
+    min-width:250px;
+    min-height: 100px;
+    max-height: 100px;
+   }
+   #main >footer{
+    min-width:250px;
+    min-height: 50px;
+    max-height:100px;
+   }
+  }

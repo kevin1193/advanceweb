@@ -1,0 +1,47 @@
+.main1 {
+    float:left;
+    width:40%;
+    margin:50px;
+    font-family: sans-serif;
+    border:5px;
+    background-color:#D0D0D0;  
+}
+
+#todo-list {
+    list-style: none;
+    width: 85%;
+    padding-left: 50px;
+    border:20px, solid;
+    border-color:#FFFFFF;
+}
+.todo-item {
+    border: 1px solid gray;
+    height: 30px;
+    padding: 5px;
+    margin-top: 5px;
+}
+#todo-list .complete {
+    float:right;
+}
+.main2{
+    float:right;
+    width:40%;
+    margin:50px;
+    font-family:sans-serif;  
+    border:5px;
+    background-color:#D0D0D0;  
+}
+body{
+    width:auto;
+    height:auto;
+    background-color: #C0C0C0;
+
+}
+#done-list {
+    list-style: none;
+    width: 85%;
+    padding-right: 50px;
+    border:20px, solid;
+    border-color:#FFFFFF;
+
+}

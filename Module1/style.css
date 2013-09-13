@@ -1,0 +1,42 @@
+#main
+{
+	background-color: none;
+	width:1400px;
+    margin:auto;
+
+
+ 
+}
+
+#Abestilla
+{
+	float:left;
+	margin:auto;
+	background-color: none ;
+	width:650px;
+}
+
+#Arellano
+{
+	float:right;
+	margin:auto;
+	background-color: none ;
+	width:650px;
+}   
+
+#AboutMe
+{
+	
+	background-color:#B4B4B4;
+}
+
+#Title
+{
+	font-color:yellow;
+	background-color:#B4B4B4;
+	
+}
+#Kevin
+{
+font-color:YELLOW ;
+}
