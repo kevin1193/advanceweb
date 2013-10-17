@@ -1,84 +1,84 @@
-<!DOCTYPE html>
-<html class="full" lang="en"><!-- The full page image background will only work if the html has the custom class set to it! Don't delete it! -->
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">
+<!doctype html>
+<html>
+    <head>
+        <title>Thesis Manager</title>
+        <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+        <link rel="stylesheet" type="text/css" href="css/styles.css">
+    </head>
+    <body>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=520243734709082";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
 
-    <title>Full Page Image Background Template for Bootstrap 3</title>
 
-    <!-- Bootstrap core CSS -->
-    <link href="css/bootstrap.css" rel="stylesheet">
-	<link rel="stylesheet" href="css/styles.css" />
-    <!-- Custom CSS for the 'Full' Template 
-    <link href="css/the-big-picture.css" rel="stylesheet">-->
-  </head>
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="javascript:void(0)">Thesis Manager</a>
+                </div>
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav menu-crud">
+                        <li class='menu-create item'><a href="javascript:void(0)">Create New</a></li>
+                        <li class='menu-list item'><a href="javascript:void(0)">Show All</a></li>
+                    </ul>
 
-  <body  cz-shortcut-listen="true">
-     <div id="fb-root"></div>
-		<script>(function(d, s, id) {
-		  var js, fjs = d.getElementsByTagName(s)[0];
-		  if (d.getElementById(id)) return;
-		  js = d.createElement(s); js.id = id;
-		  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
-		  fjs.parentNode.insertBefore(js, fjs);
-		}(document, 'script', 'facebook-jssdk'));</script> 
-    <nav class="navbar navbar-fixed-bottom navbar-inverse" role="navigation">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="index.html">Thesis Manager</a>
-        </div>
-
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse navbar-ex1-collapse">
-          <ul class="nav navbar-nav">
-				<li class="menu-create item"><a href="javascript:void(0)">Create New</a></li>
-                <li class="menu-list item"><a href="javascript:void(0)">Show All</a></li>
-           
-          </ul>
-		  <ul class="nav navbar-nav navbar-right">
-                        <li class="menu-loading hidden"><a href="#">Loading...</a></li>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class='menu-loading'><a href="#">Loading...</a></li>
                         <li class="menu-user dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="user-email">test@example.com</span> <b class="caret"></b></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class='user-email'></span> <b class="caret"></b></a>
                             <ul class="dropdown-menu">
-                                <li><a href="/api/logout?url=/" class="btn-logout">Logout</a></li>
-                                <li><a href="#">About</a></li>
+                                <li><a href="#" class='btn-logout'>Logout</a></li>
+                                <li ><a href="#">About</a></li>
                             </ul>
                         </li>
                     </ul>
-			<a href="/api/login?url=/" class="btn btn-primary btn-login navbar-btn navbar-right hidden">Log in</a>		
-        </div><!-- /.navbar-collapse -->
-      </div><!-- /.container -->
-    </nav>
-    
-    <div class="container">
-                <div class="row app-content"></div>
+                    <a href='#' class="btn btn-primary btn-login navbar-btn navbar-right">Log in</a>
+                    <form class="navbar-form navbar-right form-search" role="search" _lpchecked="1">
+                        <div class="form-group">
+                          <input type="text" class="form-control search-input" placeholder="Search">
+                        </div>
+                      </form>
+                    </div>
+                </div>
             </div>
-    
-    
-  <!-- javascript -->
-  <script src="js/jquery.js"></script>
+            <div class='container'>
+
+                <div class='row app-content'>
+                </div>
+            </div>
+        </div>
+
+        <!-- scripts -->
+        <!-- =================== -->
+        <script src="js/jquery.js"></script>
         <script src="js/underscore.js"></script>
         <script src="js/backbone.js"></script>
         <script src="js/handlebars.js"></script>
         <script src="js/bootstrap.js"></script>
         <script src="js/app.js"></script>
-	 <!-- templates -->
+
+
+        <!-- templates -->
         <!-- =================== -->
         <script id="tpl-thesis-list" type="text/x-handlebars-template">
-            <div class='col-md-7'>
+            <div id = "viewAll" class='col-md-12'>
                 <table class='table table-hover'>
                     <thead>
                         <tr>
                             <th>Year</th>
                             <th>Title</th>
+                            <th></th>
+                            <th></th>
                             <th></th>
                         </tr>
                     </thead>
@@ -92,13 +92,17 @@
             <tr data-id="{{Id}}">
                 <td>{{Year}}</td>
                 <td>{{Title}}</td>
-                <td><a href='#'>Edit</a></td>
+                <td>
+                    <a href='javascript:void(0)' class='btn-view'>View</a> &nbsp;
+                    <a href='javascript:void(0)' class='btn-edit'>Edit</a> &nbsp;
+                    <a href='javascript:void(0)' class='btn-delete'>Delete</a> &nbsp;
+                </td>
             </tr>
         </script>
 
 
         <script id="tpl-thesis-form" type="text/x-handlebars-template">
-            <div class='col-md-7 thesis-form'>
+            <div id= "newform" class='col-md-12 thesis-form'>
                 <form role="form">
                     <div class="form-group">
                         <label for="year-input">Year</label>
@@ -112,32 +116,42 @@
                     </div>
                     <div class="form-group">
                         <label for="tite-input">Title</label>
-                        <input id='title-input' type="text" class="form-control" name='Title' placeholder="Enter title.." value='{{Title}}'>
+                        <input id='title-input' type="text" class="form-control" name='Title' placeholder="Title Here" value='{{Title}}'>
                     </div>
                     <div class="form-group">
-                        <label for="subtite-input">Subtitle</label>
+                        <label for="subtitle-input">Subtitle</label>
                         <input id='subtitle-input' type="text" class="form-control" name='Subtitle' placeholder="Enter subtitle.." value='{{Subtitle}}'>
                     </div>
+
+                    <div class="form-group">
+                        <label for="authors-input">Authors</label>
+                        <input id='authors-input' type="text" class="form-control" name='Authors' placeholder="Names of the Authors & Co-Authors" value='{{Authors}}'>
+                    </div>
+
                     <div class="form-group">
                         <label for="description-input">Description</label>
-                        <textarea id='description-input' name='Description' class="form-control" rows="3">{{Description}}</textarea>
+                        <textarea id='description-input' name='Description' placeholder="This study is all about..." class="form-control" rows="5">{{Description}}</textarea>
                     </div>
-                    <button type="submit" class="btn btn-primary">Save</button>
                     {{#if Id}}
-                    <button class="btn btn-default">Delete</button>
+                        <input id='subtitle-input' type="text" style='display:none;' name='Id' value='{{Id}}'>
+                        <button class="btn-cancel btn btn-default">Cancel</button>
                     {{/if}}
+                    <button type="submit" class="btn btn-primary">Save</button>
                 </form>
             </div>
         </script>
-		<script id="tpl-thesis-view-item" type="text/x-handlebars-template">
-			<h1>{{Title}} ({{Year}})</h1>
-			<h3>{{Subtitle}}</h3><br>
-			<p>{{Description}}</p>
-			
-			<div class="fb-comments" data-href="localhost:8080/thesis-{{Id}}" data-colorscheme="light" data-numposts="5" data-width="600">
-			</div>
+
+
+        <script id="tpl-thesis-detail" type="text/x-handlebars-template">
+            <div id = "left">
+                <h2 id="ttitle">{{Title}}</h2>
+                <h3 id="tsubtitle">{{Subtitle}}</h3><br>
+                <div class="fb-like" data-href="https://gevero--labrador.appspot.com/thesis-{{Id}}" data-colorscheme="light" data-layout="standard" data-action="like" data-show-faces="true" data-send="false"></div>
+                <p id="tdescription"> ({{Year}}) <br> <br> <b>Author/s:</b> {{Authors}}<br><br> <b>Abstract:</b> {{Description}}</p>
+                <hr>
+                <div class="fb-comments" data-href="https://gevero--labrador.appspot.com/thesis-{{Id}}"  data-width="500"></div>
+            </div>
         </script>
 
-  </body>
-
+    </body>
 </html>

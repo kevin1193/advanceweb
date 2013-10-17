@@ -34,12 +34,15 @@ $(function() {
                 if ($el.hasClass('menu-create')) {
                     self.router.navigate('new', {trigger: true});
                 }
+
             });
 
             $('.navbar-brand').click(function() {
                 self.router.navigate('', {trigger: true});
-				$('.menu-create').removeClass('active');
-				$('.menu-list').removeClass('active');
+            });
+            $('.form-search').unbind('submit').submit(function(ev) {
+                self.router.navigate('search?=' + $('.search-input').val(), {trigger: true});
+                return false;
             });
         },
 
@@ -79,80 +82,170 @@ $(function() {
         showList: function() {
             var $listTemplate = getTemplate('tpl-thesis-list');
             $('.app-content').html($listTemplate);
-            this.loadAllThesis();
+        },
+        search: function(query, callback) {
+            $.get('/api/search/?q=' + query, {
+                returned_fields: JSON.stringify(['Title', 'Year'])
+            }, function(list) {
+                callback(list);
+            });
+        },
+        getThesisByID: function(id, callback) {
+            var object = {};
+            $.get('/api/thesis/' + id, function(item) {
+                callback(item);
+            });
+        },
+        showThesis: function(thesis) {
+            var self = this;
+            var $viewTemplate = getTemplate('tpl-thesis-detail', thesis);
+            $('.app-content').html($viewTemplate);
+
         },
         showForm: function(object) {
+            var self = this;
             if (!object) {
                 object = {};
             }
-            var self = this;
             var $formTemplate = getTemplate('tpl-thesis-form', object);
             $('.app-content').html($formTemplate);
-
-
             $('form').unbind('submit').submit(function(ev) {
-				$.get('/api/thesis', self.save);
-				
+                var thesisObject = {};
+                var inputs = $('form').serializeArray();
+                for (var i = 0; i < inputs.length; i++) {
+                    thesisObject[inputs[i].name] = inputs[i].value;
+                }
+                self.save(thesisObject);
+                return false;
+
+            });
+
+            $('.btn-cancel').click(function() {
+                self.router.navigate('list', {trigger: true});
                 return false;
             });
-        },
-		showView: function(object) {
-			$('.app-content').html(getTemplate('tpl-thesis-view-item', object));
-			if (typeof(FB) !== 'undefined') {
-				FB.XFBML.parse();
-			}else{
-				fb(document, 'script', 'facebook-jssdk');
-			}
+
+            self.setEventListeners();
+
         },
         loadAllThesis: function() {
-            $.get('/api/thesis', this.displayLoadedList);
+            var self = this;
+            setTimeout(function() {
+                $.get('/api/thesis', function(res) {
+                    self.displayLoadedList(res);
+                });
+            }, 200);
         },
         displayLoadedList: function(list) {
-            console.log('response', list);
-            //  use tpl-thesis-list-item to render each loaded list and attach it
-			for (var i = 0; i < list.length; i++){
-				$('.thesis-list').append(getTemplate('tpl-thesis-list-item', list[i]));
-			}
-			
-			$('.table tbody tr').click(function (event) {
-				app.router.navigate('thesis-' + $(this).attr('data-id'), {trigger: true});
-				$('.menu-create').removeClass('active');
-				$('.menu-list').removeClass('active');
-			});
-        },
-        save: function(allThesis) {
             var self = this;
-			
-			var thesisObject = {};
-			var inputs = $('form').serializeArray();
-			for (var i = 0; i < inputs.length; i++) {
-				thesisObject[inputs[i].name] = inputs[i].value;
-			}
-			
-			if (thesisObject.Title.length != 0){
-				var sameThesis = false;
-				
-				for (var i = 0; i < allThesis.length; i++){
-					if (thesisObject.Title == allThesis[i].Title){
-						sameThesis = true;
-						break;
-					}
-				}
-				
-				if (sameThesis){
-					alert("Thesis with this title was already created.");
-				}else{
-					$.post('/api/thesis', thesisObject);
-					alert("Thesis \"" + thesisObject.Title + "\", saved.");
-				}
-			}else{
-				alert("Thesis title entry is blank.");
-			}
+            // iterate thru the list to display each item
+            _.each(list, function(item) {
+                var $thesisItem = $(getTemplate('tpl-thesis-list-item', item));
+                var id = item.Id
+                if (item.Key) {
+                    id = item.Key;
+                }
+                $thesisItem.find('.btn-edit').click(function() {
+                    self.router.navigate('edit-' + id, {trigger: true});
+                });
+                $thesisItem.find('.btn-view').click(function() {
+                    self.router.navigate('thesis-' + id, {trigger: true});
+                });
+                $thesisItem.find('.btn-delete').click(function() {
+                    self.router.navigate('delete-' + id, {trigger: true});
+                });
+                $('.thesis-list').append($thesisItem);
+
+            });
+
+            // add event handlers for the edit button
+
+        },
+
+        deleteThesis: function(id){
+            var self = this;
+            $.ajax({
+                type: 'DELETE',
+                url: '/api/thesis/' + id,
+                success: function() {
+                    alert("DELETE??")
+                    self.router.navigate('list', {trigger: true});
+                }
+            });
+        },
+
+        save: function(object) {
+            var self = this;
+            var thesisObj = {};
+            var input = $ ('form').serializeArray();
+
+            for (var i = 0; i < input.length; i++) {
+                thesisObj[input[i].name] = input[i].value;
+            } 
+
+            if (thesisObj.Title.length != 0){
+                $.get('/api/thesis', function(list){
+
+                var sameThesis = false;
+                
+                for (var i = 0; i < list.length; i++){
+                    if (thesisObj.Title == list[i].Title){
+                        sameThesis = true;
+                        break;
+                    }
+                }
+
+                    if (sameThesis){
+                            alert("Error: Thesis Duplication.");
+                        }else{
+                            $.post('api/thesis',object, function(res) {
+                            self.router.navigate('list', {trigger: true});
+                             });
+                            alert("Thesis Successfully Added!");  
+                            return false;
+                        }
+                });
+              }else{
+               alert("Required Fields: Title & Description");
+        }
+    },
+            searchThesis: function(keyword){
+            var self = this;
+            var regex = new RegExp(".*(" + keyword + ").*", "i");
+            $.get('/api/thesis', function(obj){
+               var sorted_list = $.grep(obj, function(thesis, index){
+                    return regex.test(thesis.Title);
+               });
+               if(sorted_list.length == 0){
+                    alert('No result/s found.');
+               }
+               else{
+                    var $listTemplate = getTemplate('tpl-thesis-list');
+                    $('.app-content').html($listTemplate);
+                    _.each(sorted_list, function(item) {
+                        var $thesisItem = $(getTemplate('tpl-thesis-list-item', item));
+                        $('.thesis-list').append($thesisItem);
+                        var id = item.Id
+                        if (item.Key) {
+                            id = item.Key;
+                        }
+                        $thesisItem.find('.btn-edit').click(function() {
+                            self.router.navigate('edit-' + id, {trigger: true});
+                        });
+                        $thesisItem.find('.btn-view').click(function() {
+                            self.router.navigate('thesis-' + id, {trigger: true});
+                        });
+                        $thesisItem.find('.btn-delete').click(function() {
+                            self.router.navigate('delete-' + id, {trigger: true});
+                        });
+                    });
+               }
+               $('.search-input').val('');
+            });
         }
 
 
     };
-
     function getTemplate(template_id, context) {
         var template, $template, markup;
         template = $('#' + template_id);
@@ -168,8 +261,10 @@ $(function() {
             '': 'onHome',
             'thesis-:id': 'onView',
             'new': 'onCreate',
-            'edit': 'onEdit',
-            'list': 'onList'
+            'edit-:id': 'onEdit',
+            'search?=:query': 'onSearch',
+            'list': 'onList',
+            'delete-:id': 'onDelete'
         },
 
        onHome: function() {
@@ -178,30 +273,34 @@ $(function() {
 
        onView: function(id) {
            console.log('thesis id', id);
-		   $.get('api/thesis/' + id, app.showView);
+            app.getThesisByID(id, function(item) {
+                app.showThesis(item);
+                FB.XFBML.parse();
+            });
        },
 
        onCreate: function() {
             app.showForm();
        },
 
-       onEdit: function() {
-
+       onEdit: function(id) {
+            app.getThesisByID(id, function(item) {
+                app.showForm(item);
+            });
+       },
+       onSearch: function(query) {
+            app.searchThesis(query);
        },
 
        onList: function() {
             app.showList();
-       }
-
+            app.loadAllThesis();
+       },
+       onDelete: function(id) {
+            app.deleteThesis(id);
+       },
     });
-	
-	function fb(d, s, id) {
-		var js, fjs = d.getElementsByTagName(s)[0];
-		if (d.getElementById(id)) return;
-		js = d.createElement(s); js.id = id;
-		js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=130478947138367";
-		fjs.parentNode.insertBefore(js, fjs);
-	}
-	
     app.init();
+
+
 });
